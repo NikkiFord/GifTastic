@@ -3,15 +3,12 @@ var catArray = ["Happy Cat", "Playful Cat", "Annoyed Cat", "Fluffy Cat", "Yellin
 
 // generates buttons for each search term in the array
 function catButtons() {
-    $("#buttons").empty();
-    for (var i = 0; i < catArray.length; i++) {
-        var newButton = $("<button>" + catArray[i] + "</button>");
-        newButton.attr("data-cat", catArray[i]);
+    catArray.forEach(function (searchTerm) {
+       var newButton = $("<button>" + searchTerm + "</button>");
+        newButton.attr("data-cat", searchTerm);
         newButton.addClass("search-button btn btn-info ml-1");
-
         $("#buttons").append(newButton);
-    }
-
+    })
 }
 // initial call to create buttons
 catButtons();
@@ -26,7 +23,7 @@ $(document).on("click", ".search-button", function () {
 
     $.ajax({
         url: queryURL,
-        data:{
+        data: {
             q: searchTerm,
             api_key: "dc6zaTOxFJmzC",
             limit: 10
@@ -34,11 +31,11 @@ $(document).on("click", ".search-button", function () {
         method: "GET"
     }).then(function (response) {
         // loop over api result and generate img tags for each one
-        response.data.forEach(function(item){
+        response.data.forEach(function (item) {
             var animatedGif = item.images.original.url;
             var stillGif = item.images.original_still.url;
             var newGif = $("<img>");
-            
+
             // store the still and animated urls on the tag with data attributes
             newGif.attr({
                 "src": stillGif,
@@ -53,9 +50,9 @@ $(document).on("click", ".search-button", function () {
 });
 
 // animate or stop animation when image is clicked
-$(document).on("click", "img", function (){
+$(document).on("click", "img", function () {
     // if image is not animated then animate it, stop previously animated gif, mark clicked image with animated class.
-    if($(this).attr("src") === $(this).attr("data-still-gif")){
+    if ($(this).attr("src") === $(this).attr("data-still-gif")) {
         $(this).attr("src", $(this).attr("data-animated-gif"));
         $(".animated").attr("src", $(".animated").attr("data-still-gif"));
         $(".animated").removeClass("animated");
@@ -67,7 +64,7 @@ $(document).on("click", "img", function (){
 })
 
 // add user-defined search term and regenerate buttons
-$("#add").on("click", function (){
+$("#add").on("click", function () {
     var newItem = $("#textBox").val();
     $("#textBox").val("");
     catArray.push(newItem);
