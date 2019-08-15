@@ -19,7 +19,7 @@ $(document).on("click", ".search-button", function () {
     // get search term from button data attribute
     var searchTerm = $(this).attr("data-cat");
 
-    var queryURL = "http://api.giphy.com/v1/gifs/search"
+    var queryURL = "https://api.giphy.com/v1/gifs/search"
 
     $.ajax({
         url: queryURL,
